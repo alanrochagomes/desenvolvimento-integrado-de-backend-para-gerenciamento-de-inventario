@@ -4,14 +4,15 @@
   "description": "API Desenvolvida com endpoints para operações CRUD, utilizando Node.js e ExpressJS.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
