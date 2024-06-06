@@ -10,10 +10,20 @@ app.get('/oi', function (req, res) {
 })
 
 const lista = ['Notebook', 'Phone', 'Tablet']
+//              0           1        2
 
 // Endpoint Read All [GET] /inventario
 app.get('/inventario', function (req, res) {
   res.send(lista)
+})
+
+// Endpoint Read By Id [GET] /inventario/:id
+app.get('/inventario/:id', function (req, res) {
+  const id = req.params.id
+
+  const item = lista[id - 1]
+
+  res.send(item)
 })
 
 app.listen(3000), function () {
