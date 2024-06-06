@@ -2,7 +2,7 @@
   "name": "desenvolvimento-integrado-de-backend-para-gerenciamento-de-inventario",
   "version": "1.0.0",
   "description": "API Desenvolvida com endpoints para operações CRUD, utilizando Node.js e ExpressJS.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
