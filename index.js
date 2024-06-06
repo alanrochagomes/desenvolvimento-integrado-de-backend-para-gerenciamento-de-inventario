@@ -51,24 +51,24 @@ async function main() {
   app.use(express.json());
 
   // Endpoint Create [POST] /inventario
-  app.post("/inventario", function (req, res) {
-    const body = req.body;
+  app.post("/inventario", async function (req, res) {
 
-    const novoItem = body.nome;
+    const novoItem = req.body;
 
-    if (!novoItem) {
+
+    if (!novoItem || !novoItem.nome) {
       return res
         .status(400)
         .send("Corpo da requisição deve conter a propriedade `nome`.");
     }
 
-    if (lista.includes(novoItem)) {
-      return res.status(409).send("Item já existe na lista.");
-    }
+    // if (lista.includes(novoItem)) {
+    //   return res.status(409).send("Item já existe na lista.");
+    // }
 
-    lista.push(novoItem);
+    await collection.insertOne(novoItem)
 
-    res.status(201).send("Item adicionado com sucesso: " + novoItem);
+    res.status(201).send(novoItem);
   });
 
   // Endpoint Update [PUT] /inventario
