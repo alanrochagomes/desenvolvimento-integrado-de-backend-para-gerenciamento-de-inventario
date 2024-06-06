@@ -1,20 +1,17 @@
 require('dotenv').config()
 const express = require("express");
-const { MongoClient, ObjectId } = require("mongodb");
-
-const dbUrl = process.env.DATABASE_URL
-const dbName = "gerenciamento-de-inventario";
+const { connectToDatabase } = require('./db/database-connection');
+// const { MongoClient, ObjectId } = require("mongodb");
 
 async function main() {
-  const client = new MongoClient(dbUrl);
-  console.log("Conectando ao banco de dados...");
-  await client.connect();
-  console.log("Banco de dados conectado com sucesso!");
 
-  const db = client.db(dbName)
-  const collection = db.collection('inventario')
+  await connectToDatabase()
+  
+  // const collection = db.collection('inventario')
 
   const app = express();
+
+  app.use(express.json());
 
   app.get("/", function (req, res) {
     res.send("Hello World");
@@ -24,9 +21,7 @@ async function main() {
     res.send("Olá, mundo!");
   });
 
-  const lista = ["Notebook", "Phone", "Tablet"];
-  //              0           1        2
-
+/*
   // Endpoint Read All [GET] /inventario
   app.get("/inventario", async function (req, res) {
 
@@ -49,7 +44,7 @@ async function main() {
     res.send(item);
   });
 
-  app.use(express.json());
+
 
   // Endpoint Create [POST] /inventario
   app.post("/inventario", async function (req, res) {
@@ -114,8 +109,11 @@ async function main() {
 
     res.send("Item removido com sucesso: " + id);
   });
+*/
 
-  app.listen(3000);
+  app.listen(3000, function () {
+    console.log("Servidor rodando em http://localhost:3000")
+  });
 }
 
 main();
