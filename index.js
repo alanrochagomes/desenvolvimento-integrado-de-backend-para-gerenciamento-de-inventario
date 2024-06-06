@@ -101,14 +101,15 @@ async function main() {
   });
 
   // Endpoint Delete [DELETE] /inventario/:id
-  app.delete("/inventario/:id", function (req, res) {
+  app.delete("/inventario/:id", async function (req, res) {
+
     const id = req.params.id;
 
-    if (!lista[id - 1]) {
-      return res.status(404).send("Item não encontrado.");
-    }
+    // if (!lista[id - 1]) {
+    //   return res.status(404).send("Item não encontrado.");
+    // }
 
-    delete lista[id - 1];
+    await collection.deleteOne({ _id: new ObjectId(id) })
 
     res.send("Item removido com sucesso: " + id);
   });
