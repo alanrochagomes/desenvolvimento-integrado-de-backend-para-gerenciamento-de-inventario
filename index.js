@@ -23,6 +23,10 @@ app.get('/inventario/:id', function (req, res) {
 
   const item = lista[id - 1]
 
+  if (!item) {
+    return res.status(404).send('Item não encontrado.')
+  }
+
   res.send(item)
 })
 
@@ -52,6 +56,10 @@ app.post('/inventario', function (req, res) {
 app.put('/inventario/:id', function (req, res) {
   const id = req.params.id
 
+  if (!lista[id - 1]) {
+    return res.status(404).send('Item não encontrado.')
+  }
+
   const body = req.body
 
   const novoItem = body.nome
@@ -73,6 +81,10 @@ app.put('/inventario/:id', function (req, res) {
 app.delete('/inventario/:id', function (req, res) {
 
   const id = req.params.id
+
+  if (!lista[id - 1]) {
+    return res.status(404).send('Item não encontrado.')
+  }
 
   delete lista[id - 1]
   
