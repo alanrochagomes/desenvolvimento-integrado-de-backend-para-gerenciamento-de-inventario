@@ -1,7 +1,8 @@
+require('dotenv').config()
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 
-const dbUrl = "mongodb+srv://manager:NbFAJr30PXOGHkZu@cluster0.oheouec.mongodb.net";
+const dbUrl = process.env.DATABASE_URL
 const dbName = "gerenciamento-de-inventario";
 
 async function main() {
