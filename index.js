@@ -35,6 +35,14 @@ app.post('/inventario', function (req, res) {
 
   const novoItem = body.nome
 
+  if (!novoItem) {
+    return res.send('Corpo da requisição deve conter a propriedade `nome`.')
+  }
+
+  if (lista.includes(novoItem)) {
+    return res.send('Item já existe na lista.')
+  }
+
   lista.push(novoItem)
 
   res.send('Item adicionado com sucesso: ' + novoItem)
