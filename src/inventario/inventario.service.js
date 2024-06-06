@@ -1,51 +1,55 @@
- const { ObjectId } = require("mongodb");
-const { getDatabase } = require("../db/database-connection")
+const { ObjectId } = require("mongodb");
+const { getDatabase } = require("../db/database-connection");
 
 function getCollection() {
-    return getDatabase().collection('inventario')
+  return getDatabase().collection("inventario");
 }
 
 function readAll() {
-    return getCollection().find().toArray()
+  return getCollection().find().toArray();
 }
 
 /**
- * 
- * @param {string} id 
- * @returns 
+ *
+ * @param {string} id
+ * @returns
  */
 
 function readById(id) {
-
-    return getCollection().findOne({ _id: new ObjectId(id) });
+  return getCollection().findOne({ _id: new ObjectId(id) });
 }
 
 function create(newItem) {
-
-    return getCollection().insertOne(newItem)
+  return getCollection().insertOne(newItem);
 }
 
 /**
- * 
- * @param {string} id 
- * @returns 
+ *
+ * @param {string} id
+ * @returns
  */
 
 function updateById(id, newItem) {
-
-    return getCollection().updateOne(
-        { _id: new ObjectId(id) },
-        { $set: newItem }
-    )
+  return getCollection().updateOne(
+    { _id: new ObjectId(id) },
+    { $set: newItem }
+  );
 }
 
-function deleteById() {
+/**
+ *
+ * @param {string} id
+ * @returns
+ */
+
+function deleteById(id) {
+  return getCollection().deleteOne({ _id: new ObjectId(id) });
 }
 
 module.exports = {
-    readAll,
-    readById,
-    create,
-    updateById,
-    deleteById
-}
+  readAll,
+  readById,
+  create,
+  updateById,
+  deleteById,
+};
