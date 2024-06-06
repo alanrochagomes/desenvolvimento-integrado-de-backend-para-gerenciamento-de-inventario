@@ -26,6 +26,22 @@ app.get('/inventario/:id', function (req, res) {
   res.send(item)
 })
 
+app.use(express.json())
+
+// Endpoint Create [POST] /inventario
+app.post('/inventario', function (req, res) {
+
+  const body = req.body
+
+
+  const novoItem = body.nome
+
+  lista.push(novoItem)
+
+
+  res.send('Item adicionado com sucesso: ' + novoItem)
+})
+
 app.listen(3000), function () {
     console.log("Aplicação rodando em http://localhost:3000")
 }
