@@ -27,8 +27,11 @@ async function main() {
   //              0           1        2
 
   // Endpoint Read All [GET] /inventario
-  app.get("/inventario", function (req, res) {
-    res.send(lista.filter(Boolean));
+  app.get("/inventario", async function (req, res) {
+
+    const itens = await collection.find().toArray()
+
+    res.send(itens)
   });
 
   // Endpoint Read By Id [GET] /inventario/:id
