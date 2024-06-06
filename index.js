@@ -1,94 +1,113 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const { MongoClient } = require("mongodb");
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+const dbUrl = "mongodb+srv://manager:NbFAJr30PXOGHkZu@cluster0.oheouec.mongodb.net";
+const dbName = "gerenciamento-de-inventario";
 
-app.get('/oi', function (req, res) {
-    res.send('Olá, mundo!')
-})
+async function main() {
+  const client = new MongoClient(dbUrl);
+  console.log("Conectando ao banco de dados...");
+  await client.connect();
+  console.log("Banco de dados conectado com sucesso!");
 
-const lista = ['Notebook', 'Phone', 'Tablet']
-//              0           1        2
+  const db = client.db(dbName)
+  const collection = db.collection('inventario')
 
-// Endpoint Read All [GET] /inventario
-app.get('/inventario', function (req, res) {
-  res.send(lista.filter(Boolean))
-})
+  const app = express();
 
-// Endpoint Read By Id [GET] /inventario/:id
-app.get('/inventario/:id', function (req, res) {
-  const id = req.params.id
+  app.get("/", function (req, res) {
+    res.send("Hello World");
+  });
 
-  const item = lista[id - 1]
+  app.get("/oi", function (req, res) {
+    res.send("Olá, mundo!");
+  });
 
-  if (!item) {
-    return res.status(404).send('Item não encontrado.')
-  }
+  const lista = ["Notebook", "Phone", "Tablet"];
+  //              0           1        2
 
-  res.send(item)
-})
+  // Endpoint Read All [GET] /inventario
+  app.get("/inventario", function (req, res) {
+    res.send(lista.filter(Boolean));
+  });
 
-app.use(express.json())
+  // Endpoint Read By Id [GET] /inventario/:id
+  app.get("/inventario/:id", function (req, res) {
+    const id = req.params.id;
 
-// Endpoint Create [POST] /inventario
-app.post('/inventario', function (req, res) {
+    const item = lista[id - 1];
 
-  const body = req.body
+    if (!item) {
+      return res.status(404).send("Item não encontrado.");
+    }
 
-  const novoItem = body.nome
+    res.send(item);
+  });
 
-  if (!novoItem) {
-    return res.status(400).send('Corpo da requisição deve conter a propriedade `nome`.')
-  }
+  app.use(express.json());
 
-  if (lista.includes(novoItem)) {
-    return res.status(409).send('Item já existe na lista.')
-  }
+  // Endpoint Create [POST] /inventario
+  app.post("/inventario", function (req, res) {
+    const body = req.body;
 
-  lista.push(novoItem)
+    const novoItem = body.nome;
 
-  res.status(201).send('Item adicionado com sucesso: ' + novoItem)
-})
+    if (!novoItem) {
+      return res
+        .status(400)
+        .send("Corpo da requisição deve conter a propriedade `nome`.");
+    }
 
-// Endpoint Update [PUT] /inventario
-app.put('/inventario/:id', function (req, res) {
-  const id = req.params.id
+    if (lista.includes(novoItem)) {
+      return res.status(409).send("Item já existe na lista.");
+    }
 
-  if (!lista[id - 1]) {
-    return res.status(404).send('Item não encontrado.')
-  }
+    lista.push(novoItem);
 
-  const body = req.body
+    res.status(201).send("Item adicionado com sucesso: " + novoItem);
+  });
 
-  const novoItem = body.nome
+  // Endpoint Update [PUT] /inventario
+  app.put("/inventario/:id", function (req, res) {
+    const id = req.params.id;
 
-  if (!novoItem) {
-    return res.status(400).send('Corpo da requisição deve conter a propriedade `nome`.')
-  }
+    if (!lista[id - 1]) {
+      return res.status(404).send("Item não encontrado.");
+    }
 
-  if (lista.includes(novoItem)) {
-    return res.status(409).send('Esse item já existe na lista.')
-  }
+    const body = req.body;
 
-  lista[id - 1] = novoItem
+    const novoItem = body.nome;
 
-  res.send('Item atualizado com sucesso: ' + id + ' - ' + novoItem)
-})
+    if (!novoItem) {
+      return res
+        .status(400)
+        .send("Corpo da requisição deve conter a propriedade `nome`.");
+    }
 
-// Endpoint Delete [DELETE] /inventario/:id
-app.delete('/inventario/:id', function (req, res) {
+    if (lista.includes(novoItem)) {
+      return res.status(409).send("Esse item já existe na lista.");
+    }
 
-  const id = req.params.id
+    lista[id - 1] = novoItem;
 
-  if (!lista[id - 1]) {
-    return res.status(404).send('Item não encontrado.')
-  }
+    res.send("Item atualizado com sucesso: " + id + " - " + novoItem);
+  });
 
-  delete lista[id - 1]
-  
-  res.send('Item removido com sucesso: ' + id)
-})
+  // Endpoint Delete [DELETE] /inventario/:id
+  app.delete("/inventario/:id", function (req, res) {
+    const id = req.params.id;
 
-app.listen(3000)
+    if (!lista[id - 1]) {
+      return res.status(404).send("Item não encontrado.");
+    }
+
+    delete lista[id - 1];
+
+    res.send("Item removido com sucesso: " + id);
+  });
+
+  app.listen(3000);
+}
+
+main();
