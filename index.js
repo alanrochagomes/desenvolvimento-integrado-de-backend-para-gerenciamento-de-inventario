@@ -72,30 +72,32 @@ async function main() {
   });
 
   // Endpoint Update [PUT] /inventario
-  app.put("/inventario/:id", function (req, res) {
+  app.put("/inventario/:id", async function (req, res) {
+
     const id = req.params.id;
 
-    if (!lista[id - 1]) {
-      return res.status(404).send("Item não encontrado.");
-    }
+    // if (!lista[id - 1]) {
+    //   return res.status(404).send("Item não encontrado.");
+    // }
 
-    const body = req.body;
+    const novoItem = req.body;
 
-    const novoItem = body.nome;
-
-    if (!novoItem) {
+    if (!novoItem || !novoItem.nome) {
       return res
         .status(400)
         .send("Corpo da requisição deve conter a propriedade `nome`.");
     }
 
-    if (lista.includes(novoItem)) {
-      return res.status(409).send("Esse item já existe na lista.");
-    }
+    // if (lista.includes(novoItem)) {
+    //   return res.status(409).send("Esse item já existe na lista.");
+    // }
 
-    lista[id - 1] = novoItem;
+    await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: novoItem }
+    )
 
-    res.send("Item atualizado com sucesso: " + id + " - " + novoItem);
+    res.send(novoItem);
   });
 
   // Endpoint Delete [DELETE] /inventario/:id
