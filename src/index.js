@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require("express");
 const { connectToDatabase } = require('./db/database-connection');
+const inventarioRouter = require('./inventario/inventario.router')
 // const { MongoClient, ObjectId } = require("mongodb");
 
 async function main() {
@@ -17,9 +18,7 @@ async function main() {
     res.send("Hello World");
   });
 
-  app.get("/oi", function (req, res) {
-    res.send("Olá, mundo!");
-  });
+  app.use('/inventario', inventarioRouter)
 
 /*
   // Endpoint Read All [GET] /inventario
