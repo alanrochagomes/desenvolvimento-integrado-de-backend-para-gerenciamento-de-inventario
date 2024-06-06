@@ -25,6 +25,11 @@ async function main() {
     res.status(500).send({ error: 'Algo deu errado!'})
   })
 
+  // Endpoint catch-all
+  app.use('*', (req, res) => {
+    res.status(404).send({ error: 'Endpoint não encontrado'})
+  })
+
   app.listen(3000, function () {
     console.log("Servidor rodando em http://localhost:3000");
   });
