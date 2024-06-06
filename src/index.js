@@ -36,20 +36,9 @@ async function main() {
   // Endpoint Create [POST] /inventario
   app.post("/inventario", async function (req, res) {
 
-    const novoItem = req.body;
-
-
-    if (!novoItem || !novoItem.nome) {
-      return res
-        .status(400)
-        .send("Corpo da requisição deve conter a propriedade `nome`.");
-    }
-
     // if (lista.includes(novoItem)) {
     //   return res.status(409).send("Item já existe na lista.");
     // }
-
-    await collection.insertOne(novoItem)
 
     res.status(201).send(novoItem);
   });

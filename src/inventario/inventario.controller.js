@@ -19,8 +19,19 @@ async function readById(req, res) {
     res.send(item)
 }
 
-function create(req, res) {
-    res.send('Create')
+async function create(req, res) {
+
+    const newItem = req.body;
+
+    if (!newItem || !newItem.nome) {
+        return res
+          .status(400)
+          .send("Corpo da requisição deve conter a propriedade `nome`.");
+      }
+
+      await service.create(newItem)
+
+      res.status(201).send(newItem);
 }
 
 function updateById(req, res) {
