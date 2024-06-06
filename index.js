@@ -36,16 +36,16 @@ app.post('/inventario', function (req, res) {
   const novoItem = body.nome
 
   if (!novoItem) {
-    return res.send('Corpo da requisição deve conter a propriedade `nome`.')
+    return res.status(400).send('Corpo da requisição deve conter a propriedade `nome`.')
   }
 
   if (lista.includes(novoItem)) {
-    return res.send('Item já existe na lista.')
+    return res.status(409).send('Item já existe na lista.')
   }
 
   lista.push(novoItem)
 
-  res.send('Item adicionado com sucesso: ' + novoItem)
+  res.status(201).send('Item adicionado com sucesso: ' + novoItem)
 })
 
 // Endpoint Update [PUT] /inventario
@@ -56,7 +56,15 @@ app.put('/inventario/:id', function (req, res) {
 
   const novoItem = body.nome
 
-  lista[id -1 ] = novoItem
+  if (!novoItem) {
+    return res.status(400).send('Corpo da requisição deve conter a propriedade `nome`.')
+  }
+
+  if (lista.includes(novoItem)) {
+    return res.status(409).send('Esse item já existe na lista.')
+  }
+
+  lista[id - 1] = novoItem
 
   res.send('Item atualizado com sucesso: ' + id + ' - ' + novoItem)
 })
