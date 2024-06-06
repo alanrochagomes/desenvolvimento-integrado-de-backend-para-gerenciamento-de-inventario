@@ -6,8 +6,17 @@ async function readAll(req, res) {
     res.send(items)
 }
 
-function readById(req, res) {
-    res.send('Read By ID')
+async function readById(req, res) {
+
+    const id = req.params.id;
+
+    const item = await service.readById(id)
+
+    if (!item) {
+        return res.status(404).send("Item não encontrado.");
+      }
+
+    res.send(item)
 }
 
 function create(req, res) {
