@@ -1,3 +1,4 @@
+const inventario = require("./inventario.entity");
 const service = require("./inventario.service");
 
 async function readAll(req, res) {
@@ -19,12 +20,10 @@ async function readById(req, res) {
 }
 
 async function create(req, res) {
-  const newItem = req.body;
+  const { error, value: newItem } = inventario.validate(req.body);
 
-  if (!newItem || !newItem.nome) {
-    return res
-      .status(400)
-      .send("Corpo da requisição deve conter a propriedade `nome`.");
+  if (error) {
+    return res.status(400).send({ error: error.details[0].message });
   }
 
   await service.create(newItem);
@@ -37,12 +36,10 @@ async function updateById(req, res) {
 
   const id = req.params.id;
 
-  const newItem = req.body;
+  const { error, value: newItem } = inventario.validate(req.body);
 
-  if (!newItem || !newItem.nome) {
-    return res
-      .status(400)
-      .send("Corpo da requisição deve conter a propriedade `nome`.");
+  if (error) {
+    return res.status(400).send({ error: error.details[0].message });
   }
 
   await service.updateById(id, newItem);
