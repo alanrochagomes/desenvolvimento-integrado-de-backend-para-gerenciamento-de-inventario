@@ -14,7 +14,7 @@ const lista = ['Notebook', 'Phone', 'Tablet']
 
 // Endpoint Read All [GET] /inventario
 app.get('/inventario', function (req, res) {
-  res.send(lista)
+  res.send(lista.filter(Boolean))
 })
 
 // Endpoint Read By Id [GET] /inventario/:id
@@ -51,6 +51,16 @@ app.put('/inventario/:id', function (req, res) {
   lista[id -1 ] = novoItem
 
   res.send('Item atualizado com sucesso: ' + id + ' - ' + novoItem)
+})
+
+// Endpoint Delete [DELETE] /inventario/:id
+app.delete('/inventario/:id', function (req, res) {
+
+  const id = req.params.id
+
+  delete lista[id - 1]
+  
+  res.send('Item removido com sucesso: ' + id)
 })
 
 app.listen(3000)
