@@ -3,10 +3,6 @@ const controller = require("./inventario.controller");
 
 const router = express.Router()
 
-function teste(req, res) {
-    res.send('OK')
-}
-
 router.get('/', controller.readAll)
 router.get('/:id', controller.readById)
 router.post('/', controller.create)

@@ -1,14 +1,11 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
-const { connectToDatabase } = require('./db/database-connection');
-const inventarioRouter = require('./inventario/inventario.router')
-// const { MongoClient, ObjectId } = require("mongodb");
+const { connectToDatabase } = require("./db/database-connection");
+
+const inventarioRouter = require("./inventario/inventario.router");
 
 async function main() {
-
-  await connectToDatabase()
-  
-  // const collection = db.collection('inventario')
+  await connectToDatabase();
 
   const app = express();
 
@@ -18,10 +15,10 @@ async function main() {
     res.send("Hello World");
   });
 
-  app.use('/inventario', inventarioRouter)
+  app.use("/inventario", inventarioRouter);
 
   app.listen(3000, function () {
-    console.log("Servidor rodando em http://localhost:3000")
+    console.log("Servidor rodando em http://localhost:3000");
   });
 }
 
