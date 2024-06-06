@@ -33,15 +33,24 @@ app.post('/inventario', function (req, res) {
 
   const body = req.body
 
-
   const novoItem = body.nome
 
   lista.push(novoItem)
 
-
   res.send('Item adicionado com sucesso: ' + novoItem)
 })
 
-app.listen(3000), function () {
-    console.log("Aplicação rodando em http://localhost:3000")
-}
+// Endpoint Update [PUT] /inventario
+app.put('/inventario/:id', function (req, res) {
+  const id = req.params.id
+
+  const body = req.body
+
+  const novoItem = body.nome
+
+  lista[id -1 ] = novoItem
+
+  res.send('Item atualizado com sucesso: ' + id + ' - ' + novoItem)
+})
+
+app.listen(3000)
